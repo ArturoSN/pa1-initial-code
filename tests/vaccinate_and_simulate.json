@@ -1,0 +1,72 @@
+[
+    {
+        "seed": 20170217,
+        "city": [
+            ["S", 0, false], ["S", 10, false], ["S", 0, false], ["S", 0, false], ["S", 0, false], ["I", 0, true], ["S", 0, false]
+        ],
+        "days_contagious": 3,
+        "infection_probability": 0,
+        "expected": [[["I", 1], ["I", 0], ["I", 0], ["I", 1], ["I", 2], ["R", 0], ["I", 2]], 3],
+        "purpose": "No one wants to be vaccinated except the infected person. No one gets vaxxed"
+    },
+    {
+        "seed": 20170217,
+        "city": [
+            ["S", 0, true], ["S", 0, true], ["S", 0, true], ["S", 0, true], ["S", 0, true], ["I", 1, true], ["S", 0, true]
+        ],
+        "days_contagious": 3,
+        "infection_probability": 0.5,
+        "expected": [[["I", 0], ["I", 2], ["R", 1], ["R", 4], ["R", 5], ["R", 7], ["R", 5]], 9],
+        "purpose": "Everyone is falling over themselves to get vaccinated."
+    },
+    {
+        "seed": 20170217,
+        "city": [
+            ["I", 0, true], ["I", 1, true], ["I", 2, true], ["R", 0, true]
+        ],
+        "days_contagious": 3,
+        "infection_probability": 0,
+        "expected": [[["I", 0], ["I", 1], ["I", 2], ["R", 0]], 0],
+        "purpose": "Everyone wants to get vaccinated, but no one is eligible."
+    },
+    {
+        "seed": 20170217,
+        "city": [
+            ["S", 0, true], ["S", 0, true], ["S", 0, true], ["S", 0, true], ["S", 0, false], ["I", 0, true], ["S", 0, true]
+        ],
+        "days_contagious": 3,
+        "infection_probability": 0.2,
+        "expected": [[["V", 4], ["V", 4], ["V", 4], ["V", 4], ["R", 0], ["R", 1], ["V", 4]], 4],
+        "purpose": "High level of interest. All but one susceptible person ends up vaccinated. Low infection probability."
+    },
+    {
+        "seed": 20170217,
+        "city": [
+            ["S", 0, true], ["S", 0, true], ["S", 0, true], ["S", 0, true], ["S", 0, false], ["I", 0, true], ["S", 0, true]
+        ],
+        "days_contagious": 3,
+        "infection_probability": 0.8,
+        "expected": [[["I", 2], ["I", 1], ["I", 0], ["I", 2], ["R", 0], ["R", 1], ["R", 0]], 4],
+        "purpose": "High level of interest. All but one susceptible person ends up vaccinated. High infection probability."
+    },
+    {
+        "seed": 20170218,
+        "city": [
+            ["S", 0, true], ["S", 0, true], ["S", 0, true], ["S", 0, true], ["S", 0, false], ["I", 0, true], ["S", 0, true]
+        ],
+        "days_contagious": 3,
+        "infection_probability": 0.2,
+        "expected": [[["I", 0], ["I", 2], ["R", 2], ["R", 4], ["R", 7], ["R", 8], ["R", 5]], 11],
+        "purpose": "Uses a different seed."
+    },
+    {
+        "seed": 20170218,
+        "city": [
+            ["S", 0, true], ["S", 0, true], ["S", 0, true], ["S", 0, true], ["S", 0, false], ["I", 0, true], ["S", 0, true]
+        ],
+        "days_contagious": 3,
+        "infection_probability": 0.8,
+        "expected": [[["I", 1], ["I", 0], ["I", 0], ["I", 1], ["I", 2], ["R", 0], ["I", 2]], 3],
+        "purpose": "Uses a different seed."
+    }
+]

@@ -1,0 +1,46 @@
+[
+    {"aug_person": ["I", 0, true],
+     "expected": ["I", 0],
+     "purpose": "Infected person w/ zero days in that state"
+    },
+
+    {"aug_person": ["I", 10, true],
+     "expected": ["I", 10],
+     "purpose": "Infected person w/ non-zero number of days in that state"
+    },
+
+    {"aug_person": ["I", 5, false],
+     "expected": ["I", 5],
+     "purpose": "Infected person w/ non-zero number of days in that state"
+    },
+
+    {"aug_person": ["R", 0, true],
+     "expected": ["R", 0],
+     "purpose": "Recovered person w/ zero days in that state"
+    },
+
+    {"aug_person": ["R", 10, true],
+     "expected": ["R", 10],
+     "purpose": "Recovered person w/ non-zero number of days in that state"
+    },
+
+    {"aug_person": ["R", 5, false],
+     "expected": ["R", 5],
+     "purpose": "Recovered person w/ non-zero number of days in that state"
+    },
+
+    {"aug_person": ["S", 0, true],
+     "expected": ["V", 0],
+     "purpose": "Susceptible person willing to be vaccinated"
+    },
+    
+    {"aug_person": ["S", 10, true],
+     "expected": ["V", 0],
+     "purpose": "Susceptible person willing to be vaccinated"
+    },
+
+    {"aug_person": ["S", 10, false],
+     "expected": ["S", 10],
+     "purpose": "Susceptible person not willing to be vaccinated"
+    }
+]    
