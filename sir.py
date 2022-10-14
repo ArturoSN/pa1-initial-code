@@ -64,8 +64,29 @@ def advance_person_at_location(city, location, days_contagious, infection_probab
 
     # YOUR CODE HERE
 
+    if has_an_infected_neighbor(city, location) and city[location][0] == "S":
+        city[location] = ("I", 0)
+
+    elif not has_an_infected_neighbor(city, location) and city[location][0] == "S":
+        city[location] = list(city[location])
+        city[location][1] += 1
+        city[location] = tuple(city[location])
+    
+    elif city[location][0] == "I" and city[location][1] < days_contagious:
+        city[location] = list(city[location])
+        city[location][1] += 1
+        city[location] = tuple(city[location])
+
+    elif city[location][0] == "I" and city[location][1] >= days_contagious:
+        city[location] = ("R", 0)
+    
+    elif city[location][0] == "R":
+        city[location] = list(city[location])
+        city[location][1] += 1
+        city[location] = tuple(city[location])
+        
     # REPLACE ("R", 0) WITH AN APPROPRIATE RETURN VALUE
-    return ("R", 0)
+    return city[location]
 
 
 def simulate_one_day(starting_city, days_contagious, infection_probability):
