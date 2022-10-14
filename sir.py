@@ -40,9 +40,21 @@ def has_an_infected_neighbor(city, location):
 
     # YOUR CODE HERE
 
-    # REPLACE False WITH AN APPROPRIATE RETURN VALUE
-    return False
+    if location == len(city) - 1:
+        next = city[0]
+        previous = city[location-1]
+    elif location == 0:
+        next = city[location + 1]
+        previous = city[len(city) - 1]
+    else:
+        next = city[location + 1]
+        previous = city[location - 1]
 
+    # REPLACE False WITH AN APPROPRIATE RETURN VALUE
+    if next[0] == "I" or previous[0] == "I":
+        return True
+    else:
+        return False
 
 def advance_person_at_location(city, location, days_contagious, infection_probability):
     '''
