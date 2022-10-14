@@ -1,7 +1,7 @@
 '''
 Epidemic modelling
 
-YOUR NAME
+Arturo Sánchez Navarro
 
 Functions for running a simple epidemiological simulation
 '''
@@ -10,6 +10,7 @@ import random
 import sys
 
 import click
+from zmq import EVENT_CLOSE_FAILED
 
 
 # This seed should be used for debugging purposes only!  Do not refer
@@ -36,13 +37,25 @@ def has_an_infected_neighbor(city, location):
     # This function should only be called when the person at location
     # is susceptible to infection.
     disease_state, _ = city[location]
-    assert disease_state == "S"
+    assert disease_state == "S" or "V"
 
     # YOUR CODE HERE
+    
+    if location == len(city) - 1:
+        next = city[0]
+        previous = city[location-1]
+    elif location == 0:
+        next = city[location + 1]
+        previous = city[len(city) - 1]
+    else:
+        next = city[location + 1]
+        previous = city[location - 1]
 
     # REPLACE False WITH AN APPROPRIATE RETURN VALUE
-    return False
-
+    if next[0] == "I" or previous[0] == "I":
+        return True
+    else:
+        return False
 
 def advance_person_at_location(city, location, days_contagious, infection_probability):
     '''
@@ -63,10 +76,48 @@ def advance_person_at_location(city, location, days_contagious, infection_probab
     assert 0 <= location < len(city)
 
     # YOUR CODE HERE
+    #[0] = current disease status
+    #[1] = days in that status
 
-    # REPLACE ("R", 0) WITH AN APPROPRIATE RETURN VALUE
-    return ("R", 0)
+    import random
 
+    if city[location][0] == "S" and has_an_infected_neighbor(city, location):
+        status = ("I", 0)
+
+    elif city[location][0] == "S" and not has_an_infected_neighbor(city, location):
+        status = list(city[location])
+        status[1] += 1
+        status = tuple(status)
+    
+    elif city[location][0] == "I":
+        status = list(city[location])
+        status[1] += 1
+        
+        if city[location][1] >= days_contagious:
+            status = ("R", 0)
+        if city[location][1] < days_contagious:
+            status = tuple(status)
+        
+    elif city[location][0] == "V":
+        status = list(city[location])
+        status[1] += 1        
+        if has_an_infected_neighbor(city, location):
+            if random.random() < infection_probability:
+                status[1] += 1
+            else: 
+                status = ("I", 0)
+        if city[location][1] >= days_contagious:
+            status = ("R", 0)
+        if city[location][1] < days_contagious:
+            status = tuple(status)
+            
+    elif city[location][0] == "R":
+        status = list(city[location])
+        status[1] += 1
+        status = tuple(status)
+
+    # REPLACE False WITH AN APPROPRIATE RETURN VALUE
+    return status 
 
 def simulate_one_day(starting_city, days_contagious, infection_probability):
     '''
@@ -85,9 +136,14 @@ def simulate_one_day(starting_city, days_contagious, infection_probability):
 
     # YOUR CODE HERE
 
-    # REPLACE [] WITH AN APPROPRIATE RETURN VALUE
-    return []
+    new_city = []
 
+    for location, person in enumerate(starting_city):
+        new_person = advance_person_at_location(starting_city, location, days_contagious, infection_probability)
+        new_city.append(new_person)
+    
+    # REPLACE [] WITH AN APPROPRIATE RETURN VALUE
+    return new_city
 
 def is_transmission_possible(city):
     """
@@ -102,9 +158,13 @@ def is_transmission_possible(city):
     """
 
     # YOUR CODE HERE
+    susceptible = False
+    for location, person in enumerate(city):
+        if person[0] == "S" and has_an_infected_neighbor(city, location):
+            susceptible = True            
 
     # REPLACE False WITH AN APPROPRIATE RETURN VALUE
-    return False
+    return susceptible
 
 
 def run_simulation(starting_city, days_contagious, infection_probability):
@@ -124,8 +184,13 @@ def run_simulation(starting_city, days_contagious, infection_probability):
 
     # YOUR CODE HERE
 
+    final_city = []
+    days_sim = 0
+
+    #for location, person in enumerate(starting_city):
+
     # REPLACE ([], 0) WITH AN APPROPRIATE RETURN VALUE
-    return ([], 0)
+    return (final_city, days_sim)
 
 
 def vaccinate_person(vax_tuple):
@@ -142,9 +207,16 @@ def vaccinate_person(vax_tuple):
 
     # YOUR CODE HERE
 
-    # REPLACE ("R", 0) WITH AN APPROPRIATE RETURN VALUE
-    return ("R", 0)
+    for disease_state, days_state, vax_will in vax_tuple:
+        if disease_state == "S" and vax_will == True:
+            return ("V", 0)
+        elif disease_state == "S" and vax_will == False:
+            days_state += 1
+            return ("S", days_state)
+        elif disease_state != "S":
+            return (disease_state, days_state)
 
+    # REPLACE ("R", 0) WITH AN APPROPRIATE RETURN VALUE
 
 def vaccinate_city(vax_city):
     '''
@@ -159,7 +231,7 @@ def vaccinate_city(vax_city):
         city after vaccination
     '''
 
-    r# YOUR CODE HERE
+    # YOUR CODE HERE
 
     # REPLACE [] WITH AN APPROPRIATE RETURN VALUE
     return []
